@@ -132,6 +132,8 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
     const [quizEdited, setQuizEdited] = useState<IQuiz>({...quiz});
     const [questionSelected, setQuestionSelected] = useState<IQuestion | null>(null);
 
+    const [keyForm, setKeyForm] = useState<number>(0);
+
     const addQuestion = (question: IQuestion) => {
         const quizFun = {...quiz}
         const existedQuestion: IQuestion | undefined = quizFun.questions.find(q => q.id === question.id)
@@ -148,11 +150,28 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
 
         setQuizEdited(quizFun)
         setQuestionSelected(null)
+        setKeyForm(keyForm + 1)
+    }
+
+    const deleteQuestion = (questionId: number) => {
+        const quizFun = {...quiz}
+        const existedQuestion: IQuestion | undefined = quizFun.questions.find(q => q.id === questionId)
+
+        if (existedQuestion) {
+            const index: number = quizFun.questions.indexOf(existedQuestion)
+            quizFun.questions.splice(index, 1)
+        }
+
+        setQuizEdited(quizFun)
+        setQuestionSelected(null)
+        setKeyForm(keyForm + 1)
     }
 
     const showQuestion = (index: number) => {
         if (quizEdited.questions.length > index)
             setQuestionSelected(quizEdited.questions[index])
+
+        setKeyForm(keyForm + 1)
     }
 
     return (
@@ -163,7 +182,7 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
                     {
                         quizEdited.questions.length > 0 ?
                         quizEdited.questions.map((question: IQuestion, index: number) => (
-                            <div className="flex flex-row justify-between py-3 px-2 cursor-pointer" onClick={() => showQuestion(index)}>
+                            <div key={index} className="flex flex-row justify-between py-3 px-2 cursor-pointer" onClick={() => showQuestion(index)}>
                                 <p>Question n°{question.id}</p>
                                 <p className="text-slate-400">{question.points} point{question.points > 1 ? 's' : ''}</p>
                             </div>
@@ -171,7 +190,7 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
                         <p>Aucune question enregistrée.</p>
                     }
                 </div>
-                <EditQuestion quiz={quizEdited} key={questionSelected ? questionSelected.id : -1} question={questionSelected} onSubmit={addQuestion} />
+                <EditQuestion quiz={quizEdited} key={keyForm} question={questionSelected} onSubmit={addQuestion} onDelete={deleteQuestion} />
             </div>
         </CenterContent>
     )
@@ -181,9 +200,10 @@ interface EditQuestionProps {
     quiz: IQuiz;
     question: IQuestion | null;
     onSubmit: (question: IQuestion) => void;
+    onDelete: (questionId: number) => void;
 }
 
-const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit }) => {
+const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit, onDelete }) => {
     const [questionInput, setQuestionInput] = useState<string>(question ? question.question : '');
     const [answers, setAnswers] = useState<{ value: string, isCorrect: boolean }[]>(question ? question.answers : [{ value: '', isCorrect: true }])
     const [explanation, setExplanation] = useState<string>(question ? question.explanation : '');
@@ -255,7 +275,7 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit })
         }
 
         const questionForm: IQuestion = {
-            id: question ? question.id : (quiz.questions.length > 0 ? Math.max(...quiz.questions.map(q => q.id)) : 1),
+            id: question ? question.id : (quiz.questions.length > 0 ? Math.max(...quiz.questions.map(q => q.id)) + 1 : 1),
             question: questionInput,
             image: null,
             answers: answers,
@@ -265,18 +285,22 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit })
         }
 
         onSubmit(questionForm)
-
-        setQuestionInput('')
-        setAnswers([{ value: '', isCorrect: true }])
-        setExplanation('')
-        setPoint(1)
-        setChoiceTypeMultiple(false)
     }
 
     return (
         <MainContainer>
             <div className="flex flex-col">
-                <p className="mb-2">Question n°{question ? question.id : quiz.questions.length + 1}</p>
+                {
+                    question ?
+                    <div className="mb-2 flex flex-row content-center justify-between" >
+                        <p>Question n°{question.id}</p>
+                        <button className="text-red-600" onClick={() => onDelete(question.id)}>supprimer</button>
+                    </div> :
+                    <p className="mb-2">Question n°{quiz.questions.length + 1}</p>
+                }
+                <div>
+                    
+                </div>
                 
                 <div>
                     <p className="mb-3">Titre</p>
@@ -289,7 +313,7 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit })
                         {
                             answers.length > 0 ?
                             answers.map((a, index: number) => (
-                                <div className="flex flex-row gap-6 items-center">
+                                <div key={index} className="flex flex-row gap-6 items-center">
                                     <div className="flex flex-row gap-2 items-center">
                                         <CircleX onClick={() => deleteAnswer(index)} className="cursor-pointer" />
                                         <InputText label={"Réponse n°" + (index + 1)} type="text" value={a.value} onChange={(e: any) => modifyAnswerValue(index, e.target.value)} />
