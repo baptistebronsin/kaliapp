@@ -3,6 +3,8 @@ import { QuizContextType, useQuiz } from "@/contexts/quiz-context";
 
 export default function Home() {
   const { quizzes, categories, setQuizzes }: QuizContextType = useQuiz();
+
+  console.table(quizzes)
   
   return (
     <main className="py-4 px-10">

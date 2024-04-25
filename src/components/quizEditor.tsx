@@ -15,7 +15,7 @@ import { CircleX } from "lucide-react";
 interface QuizEditorProps {
     quiz: IQuiz | null;
     categories: ICategory[];
-    onValidate: (quizEditor: IQuiz) => boolean;
+    onValidate: (quizEditor: IQuiz) => void;
 }
 
 const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, categories, onValidate }) => {
@@ -27,24 +27,20 @@ const QuizEditor: React.FC<QuizEditorProps> = ({ quiz, categories, onValidate })
         setIsEditingQuiz(false);
     }
 
-    const editQuestions = (quiz: IQuiz): void => {
-
-    }
-
     return (
         isEditingQuiz || quizEdit === null ? 
             <QuizForm quiz={quizEdit} onSubmit={editQuiz} categories={categories} /> :
-            <QuestionForm quiz={quizEdit} onSubmit={editQuestions} categories={categories} />
+            <QuestionForm quiz={quizEdit} onSubmit={onValidate} />
     )
 }
 
-interface QuizForm {
+interface QuizFormProps {
     quiz: IQuiz | null;
     onSubmit: (quiz: IQuiz) => void;
     categories: ICategory[];
 }
 
-const QuizForm: React.FC<QuizForm> = ({ quiz, onSubmit, categories }) => {
+const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSubmit, categories }) => {
     const [title, setTitle] = useState<string>(quiz ? quiz.title : '');
     const [description, setDescription] = useState<string>(quiz ? quiz.description : '');
     const [categoryId, setCategoryId] = useState<number | null>(quiz ? quiz.categoryId : (categories.length > 0 ? categories[0].id : null));
@@ -122,13 +118,12 @@ const QuizForm: React.FC<QuizForm> = ({ quiz, onSubmit, categories }) => {
     )
 }
 
-interface QuestionForm {
+interface QuestionFormProps {
     quiz: IQuiz;
     onSubmit: (quiz: IQuiz) => void;
-    categories: ICategory[];
 }
 
-const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) => {
+const QuestionForm: React.FC<QuestionFormProps> = ({ quiz, onSubmit }) => {
     const [quizEdited, setQuizEdited] = useState<IQuiz>({...quiz});
     const [questionSelected, setQuestionSelected] = useState<IQuestion | null>(null);
 
@@ -174,6 +169,11 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
         setKeyForm(keyForm + 1)
     }
 
+    const showNewForm = () => {
+        setQuestionSelected(null)
+        setKeyForm(keyForm + 1)
+    }
+
     return (
         <CenterContent centerY={true} width="w-9/12">
             <h1 className="text-xl">{quiz.title}</h1>
@@ -181,12 +181,23 @@ const QuestionForm: React.FC<QuestionForm> = ({ quiz, onSubmit, categories }) =>
                 <div className={quizEdited.questions.length === 0 ? 'flex items-center justify-center' : ''}>
                     {
                         quizEdited.questions.length > 0 ?
-                        quizEdited.questions.map((question: IQuestion, index: number) => (
-                            <div key={index} className="flex flex-row justify-between py-3 px-2 cursor-pointer" onClick={() => showQuestion(index)}>
-                                <p>Question n°{question.id}</p>
-                                <p className="text-slate-400">{question.points} point{question.points > 1 ? 's' : ''}</p>
+                        <div className="flex flex-col justify-between gap-4 h-full">
+                            <div>
+                                { quizEdited.questions.map((question: IQuestion, index: number) => (
+                                    <div key={index} className="flex flex-row justify-between py-2 px-2 cursor-pointer" onClick={() => showQuestion(index)}>
+                                        <p>Question n°{question.id}</p>
+                                        <p className="text-slate-400">{question.points} point{question.points > 1 ? 's' : ''}</p>
+                                    </div>
+                                )) }
+                                <hr/>
+                                <div className="flex flex-row py-2 justify-center cursor-pointer" onClick={showNewForm}>
+                                    <button>Ajouter une question</button>
+                                </div>
                             </div>
-                        )):
+                            <div className="text-center">
+                                <Button label="Créer le quiz" onClick={() => onSubmit(quizEdited)} />
+                            </div>
+                        </div>:
                         <p>Aucune question enregistrée.</p>
                     }
                 </div>
