@@ -17,7 +17,7 @@ const sampleQuizzes: IQuiz[] = [
         categoryId: 1,
         shuffleQuestion: true,
         shuffleAnswer: true,
-        isVisible: false,
+        isVisible: true,
         questions: [
             {
                 id: 1,
