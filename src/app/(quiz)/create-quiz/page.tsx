@@ -13,9 +13,6 @@ export default function CreateQuiz() {
     const createQuiz = (quiz: IQuiz) => {
         setQuizzes([...quizzes, quiz])
         setQuizCreated(true)
-
-        console.log(quiz)
-        console.table(quizzes)
     }
 
     return (

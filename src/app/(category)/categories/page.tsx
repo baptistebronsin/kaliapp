@@ -10,7 +10,7 @@ export default function Categories() {
         <div className="flex flex-row gap-10 px-10 py-4">
             {
                 categories.length === 0 ? <div className="absolute top-1/2 right-1/2" style={{ transform: 'translate(50%, -50%)' }}><p>Aucune catégorie n'a encore été créée.</p></div> : 
-                categories.map((categorie: ICategory) => <Category category={categorie} />)
+                categories.map((categorie: ICategory, index: number) => <Category key={index} category={categorie} />)
             }
         </div>
     )
