@@ -1,4 +1,5 @@
 "use client"
+
 import MiddleDiv from "@/components/middleDiv";
 import QuizFirstPage from "@/components/quiz";
 import { QuizContextType, useQuiz } from "@/contexts/quiz-context";
@@ -21,7 +22,7 @@ export default function FindQuizById({ params }: { params: { quizId: string } })
 
         const categoryFind: ICategory | undefined = categories.find((c: ICategory) => c.id === quizFind.categoryId);
         setCategory(categoryFind)
-    }, [])
+    }, [quizzes, categories, params.quizId]);
 
     return (
         quiz ? (

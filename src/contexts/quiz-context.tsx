@@ -1660,7 +1660,6 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [categories, setCategories] = useState<ICategory[]>(sampleCategories);
 
     const addQuizze = (quiz: IQuiz) => {
-        console.log('Adding quiz:', quiz);
         setQuizzes((prevQuizzes) => [...prevQuizzes, quiz]);
     };
 
