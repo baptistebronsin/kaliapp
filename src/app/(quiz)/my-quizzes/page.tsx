@@ -7,7 +7,7 @@ export default function MyQuizzes() {
 
     return (
         <div className="mt-8">
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-4 mx-4">
                 {quizzes.map(quiz => {
                     const category = categories.find(cat => cat.id === quiz.categoryId);
 
