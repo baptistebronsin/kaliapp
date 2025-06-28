@@ -2,7 +2,7 @@
 import { QuizContextType, useQuiz } from "@/contexts/quiz-context";
 
 export default function Home() {
-  const { quizzes, categories }: QuizContextType = useQuiz();
+  const { quizzes }: QuizContextType = useQuiz();
   
   return (
     <main className="py-4 px-10">
