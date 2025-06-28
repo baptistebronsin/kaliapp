@@ -22,3 +22,7 @@ To run the application, you need to have Node.js and npm installed on your machi
     npm run dev
     ```
 4. Open your browser and go to `http://localhost:3000`.
+
+## Features
+
+There are 11 quizzes available in the application. You can access them from the "Trouver un quiz" section. Each quiz has the same id structure: `QUIZ0<number>` like `QUIZ001`, `QUIZ002`, etc. You can also create your own quizzes by going to the "Créer un quiz" section. 
