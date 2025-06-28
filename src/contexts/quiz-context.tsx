@@ -1606,43 +1606,43 @@ const sampleCategories: ICategory[] = [
         id: 1,
         name: "Sciences et Technologies",
         description: "Explorez des questions fascinantes sur les sciences, les technologies et leurs innovations.",
-        borderColor: "#0075FF",
-        backgroundColor: "#E6F4FF"
+        borderColor: "#3B82F6",
+        backgroundColor: "#EFF6FF",
     },
     {
         id: 2,
         name: "Histoire et Géographie",
         description: "Découvrez des faits sur l'histoire mondiale et la géographie à travers des quiz captivants.",
-        borderColor: "#FF4500",
-        backgroundColor: "#FFE6DB"
+        borderColor: "#F59E0B",
+        backgroundColor: "#FFFBEB",
     },
     {
         id: 3,
         name: "Arts et Littérature",
         description: "Plongez dans le monde des arts, de la littérature classique et moderne.",
-        borderColor: "#4B0082",
-        backgroundColor: "#E6DBFF"
+        borderColor: "#EC4899",
+        backgroundColor: "#FDF2F8",
     },
     {
         id: 4,
         name: "Culture Pop et Cinéma",
         description: "Testez vos connaissances sur la culture populaire, les films et la musique à travers les époques.",
-        borderColor: "#32CD32",
-        backgroundColor: "#E0FFE0"
+        borderColor: "#10B981",
+        backgroundColor: "#ECFDF5",
     },
     {
         id: 5,
         name: "Environnement et Écologie",
         description: "Apprenez et testez vos connaissances sur l'environnement, l'écologie et les problématiques globales.",
-        borderColor: "#20B2AA",
-        backgroundColor: "#E0FFFF"
+        borderColor: "#8B5CF6",
+        backgroundColor: "#F5F3FF",
     },
     {
         id: 6,
         name: "Sports et Loisirs",
         description: "Un large éventail de questions sur différents sports et activités de loisir pour les passionnés.",
-        borderColor: "#FF6347",
-        backgroundColor: "#FFE6E0"
+        borderColor: "#EF4444",
+        backgroundColor: "#FEF2F2",
     },
     {
         id: 7,
