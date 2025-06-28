@@ -11,8 +11,8 @@ const MiddleDiv: React.FC<MiddleDivProps> = ({ title, children }) => {
     return (
         <CenterContent centerY={true}>
             <MainContainer>
-                <h1>{title}</h1>
-                <div className="py-4 px-14">
+                { title && <h1>{title}</h1> }
+                <div className="py-4 px-0 sm:px-14">
                     {children}
                 </div>
             </MainContainer>
