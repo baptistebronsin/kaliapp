@@ -1,4 +1,4 @@
-import { useState } from "react";
+import Badge from "./badge";
 
 interface CheckTextProps {
     selected: {
@@ -18,11 +18,19 @@ interface CheckTextProps {
 const CheckText: React.FC<CheckTextProps> = ({ selected, notSelected, isSelected, onChange }) => {
 
     return (
-        isSelected ? <p className="py-1 px-3 inline-block rounded-lg cursor-pointer border" style={{ borderColor: selected.borderColor, backgroundColor: selected.backgroundColor }} onClick={onChange}>
-            {selected.value}
-        </p> : <p className="py-1 px-3 inline-block rounded-lg cursor-pointer border" style={{ borderColor: notSelected.borderColor, backgroundColor: notSelected.backgroundColor }} onClick={onChange}>
-            {notSelected.value}
-        </p>
+        isSelected ? <Badge
+            value={selected.value}
+            borderColor={selected.borderColor}
+            backgroundColor={selected.backgroundColor}
+            size="large"
+            onClick={onChange}
+        /> : <Badge
+            value={notSelected.value}
+            borderColor={notSelected.borderColor}
+            backgroundColor={notSelected.backgroundColor}
+            size="large"
+            onClick={onChange}
+        />
     )
 }
 

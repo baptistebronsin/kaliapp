@@ -2,10 +2,10 @@ import { IQuiz } from "@/models/quiz"
 import MiddleDiv from "./middleDiv"
 import { IQuestion } from "@/models/question"
 import { ICategory } from "@/models/category";
-import CheckText from "./checkText";
 import Button from "./button";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerButton from "./answerButton";
+import Badge from "./badge";
 
 interface QuizProps {
     quiz: IQuiz;
@@ -23,9 +23,9 @@ const QuizFirstPage: React.FC<QuizProps> = ({ quiz, category }) => {
                 <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Description : </p><p>{quiz.description}</p></div>
                 <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Nombre de question : </p><p>{quiz.questions.length}</p></div>
                 <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Nombre de points : </p><p>{quiz.questions.map((q: IQuestion) => q.points).reduce((prev, current) => prev + current, 0)}</p></div>
-                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Catégorie : </p><CheckText selected={{ value: category.name, borderColor: category.borderColor, backgroundColor: category.backgroundColor }} notSelected={{ value: category.name, borderColor: category.borderColor, backgroundColor: category.backgroundColor }} isSelected={true} onChange={() => {}} /></div>
-                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Mélanger les questions : </p><CheckText selected={{ value: "Aléatoire", borderColor: '#0CA4D8', backgroundColor: '#C4EFFE' }} notSelected={{ value: "Ordonnée", borderColor: '#E59830', backgroundColor: '#F5D3A5' }} isSelected={quiz.shuffleQuestion} onChange={() => {}} /></div>
-                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Mélanger les réponses : </p><CheckText selected={{ value: "Aléatoire", borderColor: '#0CA4D8', backgroundColor: '#C4EFFE' }} notSelected={{ value: "Ordonnée", borderColor: '#E59830', backgroundColor: '#F5D3A5' }} isSelected={quiz.shuffleAnswer} onChange={() => {}} /></div>
+                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Catégorie : </p><Badge value={category.name} borderColor={category.borderColor} backgroundColor={category.backgroundColor} size="medium" /></div>
+                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Mélanger les questions : </p><Badge value={quiz.shuffleQuestion ? "Aléatoire" : "Ordonnée"} borderColor={quiz.shuffleQuestion ? '#0CA4D8' : '#E59830'} backgroundColor={quiz.shuffleQuestion ? '#C4EFFE' : '#F5D3A5'} size="medium" /></div>
+                <div className="flex flex-row items-center gap-1"><p className="text-slate-500">Mélanger les réponses : </p><Badge value={quiz.shuffleAnswer ? "Aléatoire" : "Ordonnée"} borderColor={quiz.shuffleAnswer ? '#0CA4D8' : '#E59830'} backgroundColor={quiz.shuffleAnswer ? '#C4EFFE' : '#F5D3A5'} size="medium" /></div>
             </div>
             <div className="text-center mt-8">
                 <Button label="Démarrer le quiz" onClick={() => setStartQuiz(true)} />
@@ -53,7 +53,7 @@ const QuizContext: React.FC<QuizContextProps> = ({ quiz }) => {
             questionsFun.forEach((q: IQuestion) => q.answers = shuffleArray<{ value: string, isCorrect: boolean }>(q.answers))
 
         setQuestions(questionsFun)
-    }, [])
+    }, [quiz.questions, quiz.shuffleQuestion, quiz.shuffleAnswer])
 
     function shuffleArray<T>(array: T[]): T[] {
         let currentIndex = array.length, temporaryValue, randomIndex;
