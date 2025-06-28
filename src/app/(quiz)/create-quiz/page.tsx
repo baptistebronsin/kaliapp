@@ -6,21 +6,21 @@ import { IQuiz } from "@/models/quiz";
 import { useState } from "react";
 
 export default function CreateQuiz() {
-    const { quizzes, categories, setQuizzes }: QuizContextType = useQuiz();
+    const { categories, addQuizze }: QuizContextType = useQuiz();
 
-    const [quizCreated, setQuizCreated] = useState<boolean>(false);
+    const [quizCreatedId, setQuizCreatedId] = useState<string | null>(null);
 
     const createQuiz = (quiz: IQuiz) => {
-        setQuizzes([...quizzes, quiz])
-        setQuizCreated(true)
+        addQuizze(quiz);
+        setQuizCreatedId(quiz.id);
     }
 
     return (
         <div>
             {
-                quizCreated ? 
+                quizCreatedId ? 
                 <MiddleDiv>
-                    <p>Le quiz a bien été créé !</p>
+                    <p>Le quiz <strong>{quizCreatedId}</strong> a bien été créé !</p>
                 </MiddleDiv> : <QuizEditor quiz={null} categories={categories} onValidate={createQuiz} />
             }
         </div>

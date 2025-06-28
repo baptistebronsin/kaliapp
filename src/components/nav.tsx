@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface NavProps {
     title: string
     links: {
@@ -13,8 +15,8 @@ const Navigation: React.FC<NavProps> = ({ title, links, selectedLink }) => {
             <a href="/" className="text-lg">{ title }</a>
             <div className="flex flex-row gap-6">
                 {
-                    links.map((link) => (
-                        <a href={link.redirection} style={selectedLink === link.label ? { color: 'red' } : {} } >{link.label}</a>
+                    links.map((link, index) => (
+                        <Link key={index} href={link.redirection} style={selectedLink === link.label ? { color: 'red' } : {} } >{link.label}</Link>
                     ))
                 }
             </div>

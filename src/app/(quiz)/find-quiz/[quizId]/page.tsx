@@ -7,7 +7,7 @@ import { IQuiz } from "@/models/quiz";
 import { useEffect, useState } from "react";
 
 export default function FindQuizById({ params }: { params: { quizId: string } }) {
-    const { quizzes, categories, setQuizzes }: QuizContextType = useQuiz();
+    const { quizzes, categories }: QuizContextType = useQuiz();
 
     const [quiz, setQuiz] = useState<IQuiz | undefined>(undefined);
     const [category, setCategory] = useState<ICategory | undefined>(undefined)
@@ -28,11 +28,11 @@ export default function FindQuizById({ params }: { params: { quizId: string } })
             quiz.isVisible && category ?
             <QuizFirstPage quiz={quiz} category={category} /> :
             <MiddleDiv>
-                <p>Le quiz <strong>{quiz.title}</strong> n'est pas accessible.</p>
+                <p>Le quiz <strong>{quiz.title}</strong> n&apos;est pas accessible.</p>
             </MiddleDiv>
         ) :
         <MiddleDiv>
-            <p>Le quiz <strong>{params.quizId}</strong> n'existe pas.</p>
+            <p>Le quiz <strong>{params.quizId}</strong> n&apos;existe pas.</p>
         </MiddleDiv>
     )
 }

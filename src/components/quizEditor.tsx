@@ -11,6 +11,7 @@ import CenterContent from "./centerContent";
 import MainContainer from "./mainContainer";
 import { IQuestion } from "@/models/question";
 import { CircleX } from "lucide-react";
+import { useQuiz } from "@/contexts/quiz-context";
 
 interface QuizEditorProps {
     quiz: IQuiz | null;
@@ -41,6 +42,8 @@ interface QuizFormProps {
 }
 
 const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSubmit, categories }) => {
+    const { quizzes } = useQuiz();
+
     const [title, setTitle] = useState<string>(quiz ? quiz.title : '');
     const [description, setDescription] = useState<string>(quiz ? quiz.description : '');
     const [categoryId, setCategoryId] = useState<number | null>(quiz ? quiz.categoryId : (categories.length > 0 ? categories[0].id : null));
@@ -51,6 +54,10 @@ const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSubmit, categories }) => {
     const dropDownCategoriesOptions = categories.map((category: ICategory) => ({ value: '' + category.id, label: category.name }));
 
     const [error, setError] = useState<string | null>(null);
+
+    const generateQuizId = (): string => {
+        return `QUIZ${(quizzes.length + 1).toString().padStart(3, '0')}`;
+    }
 
     const createQuiz = () => {
         if (title === '') {
@@ -64,13 +71,15 @@ const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSubmit, categories }) => {
         }
 
         const quizCreated: IQuiz = {
-            id: "dqdhgihguqidgh",
+            id: generateQuizId(),
             title: title,
             description: description,
             categoryId: categoryId ?? 1,
             shuffleQuestion: shuffleQuestion,
             shuffleAnswer: shuffleAnswer,
             isVisible: visibility,
+            creatorEmail: 'contact@baptistebronsin.be',
+            createdAt: new Date(),
             questions: quiz ? quiz.questions : []
         }
 
@@ -333,7 +342,7 @@ const EditQuestion: React.FC<EditQuestionProps> = ({ quiz, question, onSubmit, o
                                         <CheckText selected={{ value: 'correct', borderColor: '#4CDE5F', backgroundColor: '#CEFAD4' }} notSelected={{ value: 'incorrect', borderColor: '#DA3838', backgroundColor: '#FFC7C7' }} isSelected={a.isCorrect} onChange={() => modifyAnswerState(index, !a.isCorrect)} />
                                     </div>
                                 </div>
-                            )) : <p className="text-slate-400">Aucune réponse n'a été enregistrée.</p>
+                            )) : <p className="text-slate-400">Aucune réponse n&apos;a été enregistrée.</p>
                         }
                     </div>
                     <div className="mt-3">

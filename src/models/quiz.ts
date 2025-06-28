@@ -8,5 +8,7 @@ export interface IQuiz {
     shuffleQuestion: boolean;
     shuffleAnswer: boolean;
     isVisible: boolean;
+    creatorEmail: string;
+    createdAt: Date;
     questions: IQuestion[];
 }

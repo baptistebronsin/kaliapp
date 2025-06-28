@@ -6,7 +6,7 @@ import React, { ReactNode, createContext, useContext, useState} from 'react';
 export interface QuizContextType {
     quizzes: IQuiz[];
     categories: ICategory[];
-    setQuizzes: React.Dispatch<React.SetStateAction<IQuiz[]>>;
+    addQuizze: (quiz: IQuiz) => void;
 }
 
 const sampleQuizzes: IQuiz[] = [
@@ -18,6 +18,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -169,6 +171,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -320,6 +324,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -471,6 +477,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -622,6 +630,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -773,6 +783,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer:true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -924,6 +936,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -1075,6 +1089,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -1226,6 +1242,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -1377,6 +1395,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -1528,6 +1548,8 @@ const sampleQuizzes: IQuiz[] = [
         shuffleQuestion: true,
         shuffleAnswer: true,
         isVisible: true,
+        creatorEmail: 'contact@baptistebronsin.be',
+        createdAt: new Date(),
         questions: [
             {
                 id: 1,
@@ -1631,14 +1653,19 @@ const sampleCategories: ICategory[] = [
     }    
 ]
 
-const QuizContext = createContext<QuizContextType>({ quizzes: [], categories: [], setQuizzes: () => {} });
+const QuizContext = createContext<QuizContextType>({ quizzes: [], categories: [], addQuizze: () => {} });
 
 export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [quizzes, setQuizzes] = useState<IQuiz[]>(sampleQuizzes);
     const [categories, setCategories] = useState<ICategory[]>(sampleCategories);
 
+    const addQuizze = (quiz: IQuiz) => {
+        console.log('Adding quiz:', quiz);
+        setQuizzes((prevQuizzes) => [...prevQuizzes, quiz]);
+    };
+
     return (
-        <QuizContext.Provider value={{ quizzes, categories, setQuizzes }}>
+        <QuizContext.Provider value={{ quizzes, categories, addQuizze }}>
             {children}
         </QuizContext.Provider>
     );
