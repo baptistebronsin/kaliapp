@@ -92,8 +92,8 @@ const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSubmit, categories }) => {
 
     return (
         <MiddleDiv title="Créer un quiz">
-            <div className="flex flex-col gap-5">
-                <div className="grid grid-cols-2 gap-3" style={{ width: '640px' }}>
+            <div className="relative flex flex-col gap-5">
+                <div className="grid sm:grid-cols-2 gap-3">
                     <InputText label="Nom" type="text" value={title} placeholder="Nom du quiz" onChange={(e: any) => setTitle(e.target.value)} />
                     <Textarea label="Description" value={description} placeholder="Description du quiz" onChange={(e: any) => setDescription(e.target.value)} />
                 </div>

@@ -24,6 +24,7 @@ jobs:
         run: npm run lint
 
   build-and-push:
+    needs: lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
