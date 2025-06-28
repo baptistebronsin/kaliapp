@@ -2,8 +2,6 @@
 
 Kaliapp is a simple NextJS application made during my first month at [Kaliop](https://www.kaliop.com/fr/) to learn the framework and its features. It's a quiz app where users can answer questions, see their scores and create their own quizzes.
 
-Unfortunately, I lost the original repository and this version is not finished. However, it still contains some interesting features.
-
 [!WARNING]
 This application doesn't have any backend or database, so all data is stored in memory. If you refresh the page, all data will be lost.
 
