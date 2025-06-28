@@ -37,5 +37,8 @@ ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
 
 ## BUILD
-# docker build -t kaliapp:0.1.0 .
-# docker run -d --name kaliapp -p 3000:3000 kaliapp:0.1.0
+# docker build -t ghcr.io/baptistebronsin/kaliapp:0.1.0 .
+# docker run -d --name kaliapp -p 3000:3000 ghcr.io/baptistebronsin/kaliapp:0.1.0
+
+## PUSH
+# docker push ghcr.io/baptistebronsin/kaliapp:0.1.0

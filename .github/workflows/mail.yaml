@@ -1,0 +1,27 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/kaliapp:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/kaliapp:${{ github.sha }}
+
+      - name: Set up Git
+        run: |
+          git config user.email "contact@baptistebronsin.be"
+          git config user.name "Baptiste CI"
