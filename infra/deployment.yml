@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaliapp-front
+  namespace: kaliapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaliapp-front
+  template:
+    metadata:
+      labels:
+        app: kaliapp-front
+    spec:
+      containers:
+      - name: kaliapp-front
+        image: ghcr.io/baptistebronsin/kaliapp:3a2fbbf0005967961891a6178a9549a9e62a3db1
+        ports: 
+        - containerPort: 3000
+  revisionHistoryLimit: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaliapp-front
+  namespace: kaliapp
+spec:
+  type: ClusterIP
+  selector:
+    app: kaliapp-front
+  ports:
+  - port: 80
+    targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kaliapp-front
+  namespace: kaliapp
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  rules:
+    - host: kaliapp.baptistebronsin.be
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kaliapp-front
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - kaliapp.baptistebronsin.be
+      secretName: kaliapp-front-tls
