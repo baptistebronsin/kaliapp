@@ -5,6 +5,10 @@ Kaliapp is a simple NextJS application made during my first month at [Kaliop](ht
 [!WARNING]
 This application doesn't have any backend or database, so all data is stored in memory. If you refresh the page, all data will be lost.
 
+## Hosting
+
+The application is hosted on my own kubernetes cluster with the following url: [https://kaliapp.baptistebronsin.be](https://kaliapp.baptistebronsin.be).
+
 ## Usage
 
 To run the application, you need to have Node.js and npm installed on your machine. Then, follow these steps:
