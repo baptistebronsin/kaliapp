@@ -4,7 +4,7 @@ import { useQuiz } from "@/contexts/quiz-context";
 import { ICategory } from "@/models/category";
 
 export default function Categories() {
-    const { quizzes, categories, setQuizzes } = useQuiz();
+    const { quizzes, categories } = useQuiz();
 
     return (
         <div className="flex flex-row gap-10 px-10 py-4">
