@@ -11,7 +11,10 @@ jobs:
     permissions:
       contents: read
       packages: write
-      
+
+    outputs:
+      image_tag: ${{ steps.export-tag.outputs.image_tag }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -24,7 +27,30 @@ jobs:
       - name: Push Docker image
         run: docker push ghcr.io/${{ github.repository_owner }}/kaliapp:${{ github.sha }}
 
+      - name: Export image tag
+        id: export-tag
+        run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+
+  update-deployment:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Set up Git
         run: |
           git config user.email "contact@baptistebronsin.be"
           git config user.name "Baptiste CI"
+
+      - name: Update deployment file with new image tag
+        run: |
+          sed -i "s#ghcr.io/.*/kaliapp:.*#ghcr.io/baptistebronsin/kaliapp:${{ needs.build-and-push.outputs.image_tag }}#g" infra/deployment.yml
+
+      - name: Commit and push changes
+        run: |
+          git add infra/deployment.yml
+          git commit -m "Update deployment with image tag ${{ needs.build-and-push.outputs.image_tag }}"
+          git push
