@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: kaliapp-front
-        image: ghcr.io/baptistebronsin/kaliapp:f324d6fb58ea21fc99de735c4d64e1424fd50947
+        image: ghcr.io/baptistebronsin/kaliapp:098fd1be51f19ebc2e434b9d67ea644d649922a8
         ports: 
         - containerPort: 3000
   revisionHistoryLimit: 1
